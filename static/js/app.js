@@ -65,7 +65,7 @@ function ReadNodeChecks(listArray, listNodeID){
     var checkList = listNode.getElementsByTagName("input");
     for (var i=0; i<checkList.length; i++)  {
         thisItem = checkList[i]
-        if (thisItem.checked) { checkedNodes.append(inputItem.value);}
+        if (thisItem.checked) { checkedNodes.push(thisItem.value);}
     };
     if (checkedNodes.length) {
         console.log(checkedNodes)
