@@ -38,6 +38,7 @@ function addLabels(listArray, listNodeID, name) {
 
     })
 }
+
 // Add the list items
 addLabels(cities, "city-list", "city");
 addLabels(states, "state-list", "state");
@@ -58,6 +59,23 @@ function ReadFormDate() {
     return datesToSearch;
 }
 
+function ReadNodeChecks(listArray, listNodeID){
+    var listNode = document.getElementById(listNodeID);
+    var checkedNodes = [];
+    var checkList = listNode.getElementsByTagName("input");
+    for (var i=0; i<checkList.length; i++)  {
+        thisItem = checkList[i]
+        if (thisItem.checked) { checkedNodes.append(inputItem.value);}
+    };
+    if (checkedNodes.length) {
+        console.log(checkedNodes)
+        return checkedNodes;
+    } else {
+        console.log(listArray)
+        return listArray;
+    }
+}
+
 
 
 
@@ -68,7 +86,10 @@ function LoadDataFromJSON() {
     // Get Dates to search
     let datesToSearch = ReadFormDate();
     let table = document.getElementById("ufo-table-body");
+    // Get Cities to Search
+    ReadNodeChecks(cities, "city-list");
 
+    // Determine which elements to search
     data.forEach(element => {
         if ( datesToSearch.includes(new Date(element.datetime).getTime())) {
             let tr = table.insertRow(-1);
