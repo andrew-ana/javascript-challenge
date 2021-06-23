@@ -2,7 +2,7 @@
 var tableData = data;
 
 // Get unique values from data
-var dates = [...new Set (data.map(element => element.datetime))];
+var dates = [...new Set (data.map(element => new Date(element.datetime).getTime()))];
 var cities = [...new Set (data.map(element => element.city))];
 var states = [...new Set (data.map(element => element.state))];
 var countries = [...new Set (data.map(element => element.country))];
@@ -38,6 +38,26 @@ function addLabels(listArray, listNodeID, name) {
 
     })
 }
+// Add the list items
+addLabels(cities, "city-list", "city");
+addLabels(states, "state-list", "state");
+addLabels(countries, "country-list", "country");
+addLabels(shapes, "shape-list", "shape");
+
+// Read Form Data
+function ReadFormDate() {
+    let dateInput = document.getElementById("datetime").value;
+    if (dateInput) {
+        console.log(dateInput);
+        let dateTimeArray = dateInput.split("-");
+        var datesToSearch = [new Date(dateTimeArray[0], dateTimeArray[1]-1, dateTimeArray[2]).getTime()];
+    } else {
+        console.log(dates);
+        var datesToSearch = dates;
+    }
+    return datesToSearch;
+}
+
 
 
 
@@ -45,13 +65,12 @@ function addLabels(listArray, listNodeID, name) {
 function LoadDataFromJSON() { 
     // Clear output table
     ResetTable()
-    // Get Date and transform into date obj
-    let dateTimeArray = document.getElementById("datetime").value.split("-");
-    let dateTime = new Date(dateTimeArray[0], dateTimeArray[1]-1, dateTimeArray[2]);
+    // Get Dates to search
+    let datesToSearch = ReadFormDate();
     let table = document.getElementById("ufo-table-body");
 
     data.forEach(element => {
-        if ( new Date(element["datetime"]).getTime() == dateTime.getTime()) {
+        if ( datesToSearch.includes(new Date(element.datetime).getTime())) {
             let tr = table.insertRow(-1);
             Object.keys(element).forEach(key => {
                 let thisCell = tr.insertCell(-1);
