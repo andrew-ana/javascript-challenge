@@ -87,11 +87,18 @@ function LoadDataFromJSON() {
     let datesToSearch = ReadFormDate();
     let table = document.getElementById("ufo-table-body");
     // Get Cities to Search
-    ReadNodeChecks(cities, "city-list");
+    var citiesToSearch = ReadNodeChecks(cities, "city-list");
+    var statesToSearch = ReadNodeChecks(states, "state-list");
+    var countriesToSearch = ReadNodeChecks(countries, "country-list");
+    var shapesToSearch = ReadNodeChecks(shapes, "shape-list");
 
     // Determine which elements to search
     data.forEach(element => {
-        if ( datesToSearch.includes(new Date(element.datetime).getTime())) {
+        if ( datesToSearch.includes(new Date(element.datetime).getTime()) &&
+        citiesToSearch.includes(element.city) &&
+        statesToSearch.includes(element.state) &&
+        countriesToSearch.includes(element.country) &&
+        shapesToSearch.includes(element.shape)) {
             let tr = table.insertRow(-1);
             Object.keys(element).forEach(key => {
                 let thisCell = tr.insertCell(-1);
